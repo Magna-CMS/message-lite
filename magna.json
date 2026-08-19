@@ -1,8 +1,8 @@
 {
-    "name": "magna/message-lite",
+    "name": "magna-cms/message-lite",
     "displayName": "Message Lite",
     "description": "Plain text conversations between people, for any plugin that needs them. Threads carry an opaque context so the host decides what a conversation is about, and who may open one.",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "author": "Magna Team",
     "license": "MIT",
     "compat": {
