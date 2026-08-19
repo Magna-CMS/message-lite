@@ -1,0 +1,29 @@
+{
+    "name": "magna/message-lite",
+    "displayName": "Message Lite",
+    "description": "Plain text conversations between people, for any plugin that needs them. Threads carry an opaque context so the host decides what a conversation is about, and who may open one.",
+    "version": "1.0.0",
+    "author": "Magna Team",
+    "license": "MIT",
+    "compat": {
+        "magna": "^1.0",
+        "php": "^8.3"
+    },
+    "entry": "Magna\\MessageLite\\MessageLitePlugin",
+    "icon": "icon.svg",
+    "provides": {
+        "apiRoutes": true
+    },
+    "permissions": [
+        "message-lite.threads.oversee"
+    ],
+    "uninstall": {
+        "tables": [
+            "message_lite_attachments",
+            "message_lite_messages",
+            "message_lite_participants",
+            "message_lite_conversations"
+        ],
+        "contentTypes": []
+    }
+}

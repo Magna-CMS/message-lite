@@ -1,0 +1,15 @@
+# Run from the CMS root, which is where the autoloader and larastan live:
+#
+#   vendor/bin/phpstan analyse -c plugins-dev/magna/message-lite/phpstan.neon.dist
+#
+# The CMS's own phpstan.neon.dist analyses app/, src/ and database/ only, so a
+# plugin is not covered by the project run and needs its own.
+includes:
+    - ../../../vendor/larastan/larastan/extension.neon
+
+parameters:
+    level: 9
+
+    paths:
+        - src
+        - database

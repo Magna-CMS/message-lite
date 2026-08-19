@@ -1,0 +1,37 @@
+{
+    "name": "magna-cms/message-lite",
+    "description": "Plain text conversations for Magna CMS plugins — threads, participants, read state and a cursor-based read API, with no opinion about what a conversation is about.",
+    "type": "magna-plugin",
+    "keywords": [
+        "magna", "magna-cms", "messaging", "chat",
+        "cms", "laravel", "plugin"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jishnu Raj",
+            "email": "jishnurajm@gmail.com",
+            "homepage": "https://jrstudios.dev",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.3",
+        "magna-cms/plugin-sdk": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Magna\\MessageLite\\": "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "1.x-dev"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
