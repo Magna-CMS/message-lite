@@ -42,7 +42,7 @@ disappearing messages. This is the *lite* one.
 Require it in your manifest:
 
 ```json
-{ "requires": { "magna/message-lite": "^1.0" } }
+{ "requires": { "magna-cms/message-lite": "^1.0" } }
 ```
 
 Open a thread when something happens — never on request:
@@ -145,9 +145,9 @@ seconds.
 
 ```bash
 # from the CMS root
-vendor/bin/pint --test plugins-dev/magna/message-lite
-vendor/bin/phpstan analyse -c plugins-dev/magna/message-lite/phpstan.neon.dist
-vendor/bin/pest plugins-dev/magna/message-lite/tests
+vendor/bin/pint --test plugins-dev/magna-cms/message-lite
+vendor/bin/phpstan analyse -c plugins-dev/magna-cms/message-lite/phpstan.neon.dist
+vendor/bin/pest plugins-dev/magna-cms/message-lite/tests
 ```
 
 14 feature tests cover the things that would be expensive to get wrong: thread

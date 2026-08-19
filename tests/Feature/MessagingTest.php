@@ -14,7 +14,7 @@ use Magna\Users\UserStatus;
 uses(PluginTestCase::class);
 
 beforeEach(function (): void {
-    $this->enablePlugin('magna/message-lite');
+    $this->enablePlugin('magna-cms/message-lite');
 });
 
 function messageLiteUser(string $email): User
