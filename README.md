@@ -1,9 +1,13 @@
 # Message Lite
 
-Plain text conversations between people, for any Magna plugin that needs them.
+Message Lite is a [Magna CMS](https://github.com/Magna-CMS/Magna) plugin that
+provides plain text conversations between people, for any Magna plugin that needs
+them.
 
 Standalone: no `requires` in the manifest, and no dependency on any other
-plugin.
+plugin. It ships no admin screens or front end of its own (attachments are only
+counted in the media library's storage figures) — it is a building block: a PHP
+service API for host plugins, plus a JSON API for your front end.
 
 ## The one idea
 
@@ -37,6 +41,30 @@ Everything else follows from that:
 Not included, deliberately: reactions, starring, pinning, typing indicators,
 disappearing messages. This is the *lite* one.
 
+## Requirements
+
+- [Magna CMS](https://github.com/Magna-CMS/Magna) 1.x (the manifest declares `^1.0`)
+- PHP 8.3+
+- `magna-cms/plugin-sdk` ^1.0 (installed with Magna CMS)
+
+## Installation
+
+From the root of your Magna CMS installation:
+
+```bash
+composer require magna-cms/message-lite
+php artisan magna:plugin:enable magna-cms/message-lite
+```
+
+You can also enable it from the admin panel's **Plugins** screen instead of the
+second command. Enabling runs the plugin's migrations, which create the
+`message_lite_conversations`, `message_lite_participants`,
+`message_lite_messages` and `message_lite_attachments` tables.
+
+Attachment limits (disk, size cap, files per message, allowed types) come from
+the plugin's [`config/message-lite.php`](config/message-lite.php); a
+`config/message-lite.php` in your Magna app overrides them.
+
 ## Using it from a host plugin
 
 Require it in your manifest:
@@ -57,7 +85,8 @@ $conversation = app(ConversationService::class)->open(
 );
 ```
 
-Opening is idempotent on the context *and* the exact set of people, so a second
+For a thread with a context, opening is idempotent on the context *and* the exact
+set of people, so a second
 offer on the same requirement continues the same conversation. Two different
 providers answering the same requirement get two threads — folding them together
 would put a client's reply to one in front of the other.
@@ -81,7 +110,10 @@ the outside.
 
 ## API
 
-Served at `/api/v1/message-lite`, bearer-token authenticated.
+Served at `/api/v1/message-lite`, authenticated with a Magna API key sent as a
+bearer token (`Authorization: Bearer …`). The routes require a
+**management**-scope key; a delivery key is refused. Each request acts as the
+user who owns the key.
 
 ```
 GET    /conversations                                  your threads
@@ -91,7 +123,8 @@ POST   /conversations/{id}/read                        mark read
 POST   /conversations/{id}/muted                       mute or unmute
 GET    /conversations/{id}/messages?after={messageId}  poll
 POST   /conversations/{id}/messages                    say something
-                                                       (multipart: attachments[])
+                                                       (multipart: attachments[];
+                                                       throttled to 30/min)
 GET    /conversations/{id}/messages/{m}/attachments/{a}  the bytes
 PATCH  /conversations/{id}/messages/{message}          edit your own
 DELETE /conversations/{id}/messages/{message}          withdraw your own
@@ -150,8 +183,16 @@ vendor/bin/phpstan analyse -c plugins-dev/magna-cms/message-lite/phpstan.neon.di
 vendor/bin/pest plugins-dev/magna-cms/message-lite/tests
 ```
 
+The checks run from a Magna CMS checkout with this plugin at
+`plugins-dev/magna-cms/message-lite`.
+
 14 feature tests cover the things that would be expensive to get wrong: thread
 identity, the unread count, the polling cursor including the shared-second case,
 participation refusals, a closed thread staying readable, withdrawal leaving
 replies intact, cross-thread replies, and the absence of a create-conversation
 endpoint.
+
+## License
+
+Message Lite is open-source software released under the MIT License, as declared
+in `composer.json` and `magna.json`.
